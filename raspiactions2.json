@@ -1,0 +1,254 @@
+{
+    "manifest": {
+        "displayName": "Moving Google Home",
+        "invocationName": "Moving Google Home",
+        "category": "PRODUCTIVITY"
+    },
+    "actions": [
+        {
+            "name": "com.larobotics.actions.Move",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.larobotics.intents.Move",
+                "parameters": [
+                    {
+                        "name": "number",
+                        "type": "SchemaOrg_Number"
+                    },
+                    {
+                        "name": "speed",
+                        "type": "Speed"
+                    },
+                    {
+                        "name": "go_direction",
+                        "type": "GoDirection"
+                    }
+                ],
+                "trigger": {
+                    "queryPatterns": [
+                        "move ($GoDirection:go_direction)? ($Speed:speed)? for $SchemaOrg_Number:number seconds",
+                        "move ($GoDirection:go_direction)? for $SchemaOrg_Number:number seconds ($Speed:speed)?",
+                        "go ($GoDirection:go_direction)? ($Speed:speed)? for $SchemaOrg_Number:number seconds",
+                        "go ($GoDirection:go_direction)? for $SchemaOrg_Number:number seconds ($Speed:speed)?",
+                        "move ($GoDirection:go_direction)? ($Speed:speed)? ($SchemaOrg_Number:number)?",
+                        "go ($GoDirection:go_direction)? ($Speed:speed)? ($SchemaOrg_Number:number)?"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "Move for $number seconds"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.larobotics.commands.Move",
+                                    "params": {
+                                        "go_direction": "$go_direction",
+                                        "speed": "$speed",
+                                        "number": "$number"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "com.larobotics.actions.Turn",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.larobotics.intents.Turn",
+                "parameters": [
+                    {
+                        "name": "direction",
+                        "type": "Direction"
+                    }
+                ],
+                "trigger": {
+                    "queryPatterns": [
+                        "turn $Direction:direction"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "Turn $Direction"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.larobotics.commands.Turn",
+                                    "params": {
+                                        "direction": "$direction"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "com.larobotics.actions.TakePhoto",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.larobotics.intents.TakePhoto",
+                "trigger": {
+                    "queryPatterns": [
+                        "Take a photo"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "Taking a photo"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.larobotics.commands.TakePhoto"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+
+        {
+            "name": "com.larobotics.actions.Automatic",
+            "availability": {
+                "deviceClasses": [
+                    {
+                        "assistantSdkDevice": {}
+                    }
+                ]
+            },
+            "intent": {
+                "name": "com.larobotics.intents.Automatic",
+                "trigger": {
+                    "queryPatterns": [
+                        "automatic mode",
+                        "mode automatic"
+                    ]
+                }
+            },
+            "fulfillment": {
+                "staticFulfillment": {
+                    "templatedResponse": {
+                        "items": [
+                            {
+                                "simpleResponse": {
+                                    "textToSpeech": "Automatic mode"
+                                }
+                            },
+                            {
+                                "deviceExecution": {
+                                    "command": "com.larobotics.commands.Automatic"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+    ],
+    "types": [
+        {
+            "name": "$Speed",
+            "entities": [
+                {
+                    "key": "SLOWLY",
+                    "synonyms": [
+                        "slowly",
+                        "slow"
+                    ]
+                },
+                {
+                    "key": "NORMALLY",
+                    "synonyms": [
+                        "normally",
+                        "regular"
+                    ]
+                },
+                {
+                    "key": "QUICKLY",
+                    "synonyms": [
+                        "quickly",
+                        "fast",
+                        "quick"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "$GoDirection",
+            "entities": [
+                {
+                    "key": "FORWARD",
+                    "synonyms": [
+                        "forward",
+                        "further"
+                    ]
+                },
+                {
+                    "key": "BACKWARD",
+                    "synonyms": [
+                        "back",
+                        "backward"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "$Direction",
+            "entities": [
+                {
+                    "key": "LEFT",
+                    "synonyms": [
+                        "left"
+                    ]
+                },
+                {
+                    "key": "RIGHT",
+                    "synonyms": [
+                        "right"
+                    ]
+                }
+            ]
+        }
+    ]
+}
